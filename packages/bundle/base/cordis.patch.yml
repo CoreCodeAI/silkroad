@@ -119,6 +119,8 @@
 
     - id: deepseek-account
       name: '@deepseek-ai/dsh-deepseek-account-platform'
+      # 丝路 SilkRoad: DeepSeek account, analytics and telemetry services are off; models use API keys.
+      disabled: true
       config:
         desktopPlatform: !!js "ctx.get('profileContext')?.name === 'desktop' && ['darwin', 'win32'].includes(process.platform) ? process.platform : null"
 
@@ -217,6 +219,8 @@
     # Every CLI exit path drains by disposing the root on SIGINT/SIGTERM.
     - id: session-telemetry-otel
       name: '@deepseek-ai/dsh-session-telemetry-otel'
+      # 丝路 SilkRoad: DeepSeek account, analytics and telemetry services are off; models use API keys.
+      disabled: true
       config:
         mode: !!js process.env.DSH_TELEMETRY_MODE || 'FEEDBACK_ONLY'
         shutdownTimeoutMillis: 3000
@@ -527,3 +531,5 @@
 
     - id: llm-deepseek-account
       name: '@deepseek-ai/dsh-llm-deepseek-account'
+      # 丝路 SilkRoad: DeepSeek account, analytics and telemetry services are off; models use API keys.
+      disabled: true

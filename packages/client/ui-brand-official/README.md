@@ -9,7 +9,7 @@ English | [中文](README.zh.md)
 
 ## Summary
 
-This package gives an `official` client build the DeepSeek Harness mark and name in the sidebar. Other build profiles keep the shell's fish mark and local-build label, while the conversation hero always uses the animated fish. Choose it for deployments branded as DeepSeek Harness; deployments with another identity should provide a replacement brand package. It has no runtime state and does not affect model requests.
+This package gives an `official` client build the 丝路 SilkRoad mark in the sidebar. The brand name always comes from the sidebar's localized fallback (丝路 in Chinese, SilkRoad in English); only local builds add their version beside it. The conversation hero uses the SilkRoad mark fallback from `dsh-client-ui-conversation` in every profile. It has no runtime state and does not affect model requests.
 
 ## Table of Contents
 
@@ -29,7 +29,7 @@ Mount this plugin in the browser roster of a deployment whose identity is DeepSe
 
 ### Choosing the profile
 
-`DSH_CLIENT_BUILD_PROFILE` selects which brand renders. An `official` build shows the official mark and name in the sidebar; any other value leaves the shell fallbacks — the fish mark and the local-build label — in place. The conversation hero shows the animated hero fish from `dsh-client-ui-conversation` regardless of profile, because that fallback is already the official mark. The plugin still loads and validates in both cases; only the registration is profile-gated.
+`DSH_CLIENT_BUILD_PROFILE` selects whether the occupant registers. An `official` build registers the SilkRoad mark in the sidebar; any other value leaves the shell fallback, which draws the same mark. The plugin still loads and validates in both cases; only the registration is profile-gated.
 
 ### Replacing the brand
 
@@ -43,7 +43,7 @@ A deployment with its own identity leaves this package out and composes another 
 <details>
 <summary>Implementation internals — click to expand</summary>
 
-The two occupants install as one declaration-aware registration set: nested `ctx.slots.inject()` calls wait on the sidebar declaration, so the set works whether this row activates before or after the declarer, withdraws both occupants when the declaration collapses, and leaves no partial brand mix during HMR. The browser half is [`src/client/index.ts`](src/client/index.ts); the node half is an empty Loader seat. The browser title is a build-environment concern (`DSH_CLIENT_TITLE`), outside the slot system.
+The occupant installs through `ctx.slots.inject()`, which waits on the sidebar declaration, so it works whether this row activates before or after the declarer and is withdrawn when the declaration collapses. The browser half is [`src/client/index.ts`](src/client/index.ts); the node half is an empty Loader seat. The browser title is a build-environment concern (`DSH_CLIENT_TITLE`), outside the slot system.
 
 </details>
 

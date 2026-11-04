@@ -1,0 +1,28 @@
+# Bilingual-pair consistency record for README.md (docs/i18n/README.md): per heading
+# section, a hash of its English and Chinese blocks outside code blocks and generated regions.
+# After editing either side, bring the other along and re-record with:
+#   pnpm run verify-translation-pairing --write plugins/silkroad/README.md
+/silkroad:
+  en: e59ade038049945a
+  zh: 83a94ac45279c5cf
+/silkroad/what-it-does:
+  en: 6ab7816056ecb74e
+  zh: 51155efe527d3a1e
+/silkroad/interface:
+  en: d38fa04abb5726d2
+  zh: b4fc0e95d436e4a7
+/silkroad/skills-and-roles:
+  en: 65679a64c9b0a820
+  zh: 45f78bedef9702cb
+/silkroad/verification-status:
+  en: 5d6c7332c2cd3a0f
+  zh: 3f53d7e9bcde17c5
+/silkroad/installation:
+  en: c5f200db789a0cef
+  zh: a7e52ab7b0d81b0f
+/silkroad/development:
+  en: c5ab577499a0fce7
+  zh: 229585117cf30e62
+/silkroad/license:
+  en: d1ce14b548936389
+  zh: 29aa4c53f9c5cb5f

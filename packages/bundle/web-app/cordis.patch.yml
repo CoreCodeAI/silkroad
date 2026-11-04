@@ -44,7 +44,8 @@
 - insert:
     - id: desktop-product-telemetry
       name: '@deepseek-ai/dsh-host-product-telemetry-otel'
-      disabled: !!js "ctx.get('profileContext')?.name !== 'desktop'"
+      # 丝路 SilkRoad: DeepSeek account, analytics and telemetry services are off; models use API keys.
+      disabled: true
       config:
         scheduledDelayMillis: 30000
         timeoutMillis: 15000
@@ -56,7 +57,8 @@
 
     - id: product-analytics
       name: '@deepseek-ai/dsh-client-product-analytics'
-      disabled: !!js "ctx.get('profileContext')?.name !== 'desktop'"
+      # 丝路 SilkRoad: DeepSeek account, analytics and telemetry services are off; models use API keys.
+      disabled: true
       config:
         enabled: true
         appVersion: !!js process.env.DSH_CLIENT_VERSION
@@ -143,9 +145,13 @@
     # reports an actionable error when its settings-domain provider is absent.
     - id: ui-settings-account
       name: '@deepseek-ai/dsh-client-ui-settings-account'
+      # 丝路 SilkRoad: DeepSeek account, analytics and telemetry services are off; models use API keys.
+      disabled: true
 
     - id: account-controller
       name: '@deepseek-ai/dsh-api-account-controller'
+      # 丝路 SilkRoad: DeepSeek account, analytics and telemetry services are off; models use API keys.
+      disabled: true
 
     - id: settings-controller
       name: '@deepseek-ai/dsh-api-settings-controller'
@@ -250,6 +256,10 @@
 
     - id: cordis-client-runner
       name: '@deepseek-ai/dsh-cordis-client-runner'
+
+    # 丝路 SilkRoad cross-border e-commerce: data sources, role presets, skills and the 跨境电商 UI.
+    - id: silkroad
+      name: '@deepseek-ai/dsh-silkroad'
 
     - id: ui-theme
       name: '@deepseek-ai/dsh-client-ui-theme'

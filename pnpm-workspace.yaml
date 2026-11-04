@@ -7,6 +7,8 @@ packages:
   - native/system/packages/*
   # Product assemblies over the package tier; apps/cli owns the `dsh` bin.
   - apps/*
+  # 丝路 SilkRoad product plugins, built with their own toolchain and shipped in the web-app bundle.
+  - plugins/*
   # Private package owning repository-level benchmark dependencies.
   - benchmarks
   - website

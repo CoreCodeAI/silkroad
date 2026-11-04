@@ -26,7 +26,8 @@ const UPDATE_ENVIRONMENTS = {
   },
   production: {
     originEnvName: undefined,
-    fixedOrigin: 'https://download.deepseek.com',
+    // SilkRoad publishes no production feed yet; set SILKROAD's own origin here before enabling updates.
+    fixedOrigin: 'https://download.invalid',
     bucketEnvName: 'DOWNLOAD_PROD_COS_BUCKET',
     secretIdEnvName: 'DOWNLOAD_PROD_COS_SECRET_ID',
     secretKeyEnvName: 'DOWNLOAD_PROD_COS_SECRET_KEY',

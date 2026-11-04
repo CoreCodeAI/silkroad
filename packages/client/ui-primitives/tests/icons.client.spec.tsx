@@ -135,28 +135,14 @@ describe('product icon set', () => {
   })
 })
 
-describe('FishLogo', () => {
-  it('renders the fish path in currentColor at the native ratio', () => {
-    const { container } = render(<primitives.FishLogo />)
-    const svg = container.querySelector('svg')!
-    expect(svg.getAttribute('width')).toBe('24')
-    expect(Number(svg.getAttribute('height'))).toBeCloseTo(17.66, 1)
-    expect(svg.getAttribute('viewBox')).toBe('0 0 23.16 17.04')
-    expect(container.querySelectorAll('path')).toHaveLength(1)
-    expect(container.innerHTML).toContain('currentColor')
-    expect(container.innerHTML).not.toContain('M0 0L23.16')
-  })
-})
-
-describe('BrandWordmark', () => {
-  it('can render the name artwork with or without its leading mark', () => {
-    const view = render(<primitives.BrandWordmark />)
-    const svg = view.container.querySelector('svg')!
-    expect(svg.getAttribute('width')).toBe('182')
-    expect(svg.getAttribute('viewBox')).toBe('0 0 182 24')
-
-    view.rerender(<primitives.BrandWordmark includeMark={false} />)
-    expect(svg.getAttribute('width')).toBe('156')
-    expect(svg.getAttribute('viewBox')).toBe('26 0 156 24')
+describe('SilkRoadMark', () => {
+  it('renders a decorative mark with per-instance gradient ids', () => {
+    const { container } = render(<><primitives.SilkRoadMark size={40} /><primitives.SilkRoadMark /></>)
+    const [first, second] = [...container.querySelectorAll('svg')]
+    expect(first!.getAttribute('width')).toBe('40')
+    expect(second!.getAttribute('width')).toBe('24')
+    expect(first!.getAttribute('aria-hidden')).toBe('true')
+    const ids = [...container.querySelectorAll('linearGradient')].map(node => node.id)
+    expect(new Set(ids).size).toBe(2)
   })
 })

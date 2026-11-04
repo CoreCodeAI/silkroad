@@ -192,7 +192,8 @@ it.each(['zh-CN', 'en'])('renders %s browser fallback and copies only the active
   expect(view.document.querySelector('main')!.classList.contains('waiting-page')).toBe(false)
 })
 
-it('keeps a newer account notification when the start response arrives late', async () => {
+// SilkRoad: DeepSeek account sign-in is removed from Welcome (ACCOUNT_SIGN_IN = false); there is no #sign-in action.
+it.skip('keeps a newer account notification when the start response arrives late', async () => {
   const view = mount()
   const started = Promise.withResolvers<AccountView>()
   view.api.startSignIn.mockReturnValueOnce(started.promise)
@@ -264,7 +265,8 @@ it.each(['copied', 'failed'] as const)('restores the copy action after %s feedba
   }
 })
 
-it.each(['zh-CN', 'en'])('keeps the expiry notice visible after returning to Welcome: %s', async (language) => {
+// SilkRoad: DeepSeek account sign-in is removed from Welcome (ACCOUNT_SIGN_IN = false); there is no #sign-in action.
+it.skip.each(['zh-CN', 'en'])('keeps the expiry notice visible after returning to Welcome: %s', async (language) => {
   vi.useFakeTimers()
   try {
     const takeNotice = vi.fn<() => Promise<WelcomeNotice | undefined>>().mockResolvedValue(undefined).mockResolvedValueOnce('session-expired')
@@ -316,7 +318,8 @@ it('ignores a notification received after its renderer unmounts', async () => {
 })
 
 
-it.each(['zh-CN', 'en'])('returns from completed sign-in to the initial page after sign-out: %s', async (language) => {
+// SilkRoad: DeepSeek account sign-in is removed from Welcome (ACCOUNT_SIGN_IN = false); there is no #sign-in action.
+it.skip.each(['zh-CN', 'en'])('returns from completed sign-in to the initial page after sign-out: %s', async (language) => {
   const view = mount(language)
   const publish = view.api.onAccountState.mock.calls[0]![0]
   const links = { usageUrl: 'https://example.test/usage', topUpUrl: 'https://example.test/top_up' }
@@ -329,7 +332,8 @@ it.each(['zh-CN', 'en'])('returns from completed sign-in to the initial page aft
   await expect(view.copy()).toMatchFileSnapshot(`./expected/welcome/${language}.expected.txt`)
 })
 
-it('reports each return to the welcome entry once, including account cancellation', async () => {
+// SilkRoad: DeepSeek account sign-in is removed from Welcome (ACCOUNT_SIGN_IN = false); there is no #sign-in action.
+it.skip('reports each return to the welcome entry once, including account cancellation', async () => {
   const view = mount()
   expect(view.api.analytics).not.toHaveBeenCalled()
   fireEvent.click(view.button('#api-key'))

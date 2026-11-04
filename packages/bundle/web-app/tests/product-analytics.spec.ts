@@ -12,7 +12,33 @@ import { afterEach, expect, it, onTestFinished, vi } from 'vitest'
 
 afterEach(() => { vi.unstubAllEnvs() })
 
-it.each(['desktop', 'web'])('limits collection and its shutdown to the Desktop launch: %s', async (profile) => {
+it.each(['desktop', 'web'])('keeps Desktop product telemetry and analytics disabled in every profile: %s', async (profile) => {
+  vi.stubEnv('DSH_CLIENT_VERSION', 'test-version')
+  const ctx = new Context()
+  onTestFinished(() => ctx.fiber.dispose())
+  ctx.provide('profileContext', {
+    name: profile, dir: '/profile', patchPath: '/profile/cordis.patch.yml', installAnchor: '/profile/package.json',
+    cwd: '/workspace', home: '/home', startedBundles: [], overlays: [], telemetryDisabledEnv: undefined,
+  })
+  ctx.provide('deepseekAccount', { getDeviceIdentity: vi.fn().mockResolvedValue(undefined) } as never)
+  await ctx.plugin(OTel)
+  ctx.baseUrl = 'file:///'
+  await ctx.plugin(Loader).await()
+  ctx.loader.builtins.telemetry = Telemetry
+  ctx.loader.builtins.analytics = Analytics
+  const rows = loadOverlayPatches('analytics', fileURLToPath(new URL('../cordis.patch.yml', import.meta.url)))
+    .flatMap(patch => patch.insert ?? []).filter(row => row.id === 'desktop-product-telemetry' || row.id === 'product-analytics')
+  expect(rows.map(row => row.id).sort()).toEqual(['desktop-product-telemetry', 'product-analytics'])
+  expect(rows.every(row => row.disabled === true)).toBe(true)
+  await ctx.loader.root.update(rows.map(row => ({ ...row, name: row.id === 'desktop-product-telemetry' ? 'cordis:telemetry' : 'cordis:analytics' })))
+  await ctx.loader.await()
+  expect(ctx.loader.resolve('desktop-product-telemetry').disabled).toBe(true)
+  expect(ctx.get('productTelemetry')).toBeUndefined()
+  expect(ctx.get('productAnalytics')).toBeUndefined()
+})
+
+// SilkRoad: product telemetry is disabled in every profile; the Desktop-only collector policy below is no longer shipped.
+it.skip.each(['desktop', 'web'])('limits collection and its shutdown to the Desktop launch: %s', async (profile) => {
   const received = Promise.withResolvers<undefined>()
   const server = createServer((req) => { req.resume(); req.once('end', () => { received.resolve(undefined) }) })
   server.listen(0, '127.0.0.1')

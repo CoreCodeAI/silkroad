@@ -1,77 +1,66 @@
-# DeepSeek Harness
+# 丝路 SilkRoad
 
 English | [中文](README.zh.md)
 
-DeepSeek Harness (`dsh`) is an open-source agent harness developed by [DeepSeek AI](https://deepseek.com).
+丝路 SilkRoad is an open-source desktop AI agent for cross-border e-commerce, starting with TikTok Shop and extending to Amazon and independent stores later. It is built on [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness) (MIT) as a fork, and is not an official DeepSeek product.
 
-It is built on an **everything-is-a-plugin** architecture and powered by [Cordis](https://github.com/cordiverse/cordis), whose design is described in [_A Programming Paradigm for Spatiotemporal Composability_](https://arxiv.org/abs/2608.25512).
+**You authorize all data yourself**: sign in to data platforms with your own account in the browser, or enter your own API keys. SilkRoad ships no shared credentials, uses no relay server, and reports no usage data.
 
-Documentation: [https://deepseek-harness.github.io/deepseek-harness/](https://deepseek-harness.github.io/deepseek-harness/)
+## Beta
 
-## Developer preview
+SilkRoad is in beta; features, skills and data-source connections will keep changing. SilkRoad only reads data and drafts results: it does not send messages or emails, change prices, issue refunds or adjust ad budgets for you.
 
-DeepSeek Harness is in _developer preview_ and iterating rapidly. **THERE WILL BE COMPATIBILITY-BREAKING CHANGES.**
+Read the [safety notes](SAFETY.md) before running it.
 
-Review the [safety notice](SAFETY.md) before running the project.
+<a id="features"></a>
+
+## What it does
+
+- **New-session screen**: five scenario groups (sourcing and listing, content, shop operations, customer service, creator marketing). One click selects the role and fills in the prompt.
+- **跨境电商 sidebar panel**: scenarios, role team, data sources, knowledge base and reports.
+- **Data sources**: the official FastMoss MCP (browser sign-in), the Kalodata Open API (your own key, billed in Kalodata credits), the TikTok Shop Open Platform (read-only, for your own shops), SerpApi, AnySearch, OpenAI Images-compatible image generation, and the local knowledge folder `~/SilkRoad/knowledge`.
+- **Skills**: product research, market opportunity, listings, pricing, product images, short-video scripts, viral-video breakdowns, buyer replies, review insights, shop diagnosis, single-product diagnosis, competitor shops, GMV Max diagnosis, weekly reports, creator discovery, creator diagnosis, outreach emails and sample briefs.
+- **Reports**: skills save reports under `~/SilkRoad/reports/`, previewable in the right sidebar.
+
+The plugin source and its details are in [plugins/silkroad](plugins/silkroad/README.md).
+
+<a id="run"></a>
 
 ## Run
 
-### Run from `npm`
+### Run the Web version from source
 
-Install `Node.js`, then run:
-
-```sh
-npx @deepseek-ai/dsh web
-```
-
-The command starts the Web UI at `http://127.0.0.1:3080` by default and opens it in the default browser for a local launch. An SSH launch only prints the host URL because the SSH client or editor owns the local forwarded address. Pass `--no-open` to run the server without opening a browser. See [Web UI guide](docs/user/guide/index.md).
-
-### Run from source
-
-To run from a repository checkout:
+Requires Node.js 24 and pnpm 11.28.5 (`corepack enable`).
 
 ```sh
-git clone https://github.com/deepseek-ai/deepseek-harness.git
-cd deepseek-harness
 pnpm install
-pnpm run build
-pnpm dsh web
+pnpm run build:artifacts
+pnpm run start:web
 ```
 
-`pnpm run build` prepares the repository artifacts. `pnpm dsh web` uses those built artifacts without rebuilding.
+Open the printed address in a browser. User data lives in `~/.silkroad` by default; set `DSH_HOME` to use another directory.
 
-## Community and support
+### Package the macOS desktop app
 
-- Submit feedback or bug reports through [GitHub Discussions](https://github.com/deepseek-ai/deepseek-harness/discussions).
-- Add the [`dsh-plugin`](https://github.com/topics/dsh-plugin) topic to your plugin repository for discoverability.
-- Join <a href="https://discord.gg/4MrtZUhpxg">DeepSeek Harness Discord community</a>.
+Requires the Xcode command line tools.
 
-## Contributing
-
-See [CONTRIBUTING.md](CONTRIBUTING.md).
-
-## Development
-
-Start with the [development guide](docs/development.md) and [architecture documentation](docs/architecture.md).
-
-`pnpm run dev:web` builds, serves, and rebuilds client bundles on source edits in one terminal, and `make help` lists the matching Make targets for Web and Desktop; the guide's application commands section owns the full table.
-
-For agents, follow [AGENTS.md](AGENTS.md).
-
-## Citation
-
-```bibtex
-@misc{deepseek-harness2026,
-  title={DeepSeek Harness: Everything is a Plugin},
-  author={DeepSeek-AI},
-  year={2026},
-  publisher={GitHub},
-  howpublished={\url{https://github.com/deepseek-ai/deepseek-harness}},
-}
+```sh
+pnpm run package:desktop:mac:arm64:unsigned
 ```
+
+The result is an unsigned, unnotarized DMG; allow it under System Settings → Privacy & Security on first launch. There is no auto-update yet; install new versions manually.
+
+<a id="differences"></a>
+
+## Differences from DeepSeek Harness
+
+- The product name, mark, new-session screen and installers are SilkRoad's. The app id is `com.corecode.silkroad`, the data directory is `~/.silkroad` and the terminal command is `silkroad`, so SilkRoad installs side by side with the official DeepSeek Harness.
+- DeepSeek account sign-in, usage analytics and the official auto-update feed are removed; models use your own API keys, and DeepSeek remains one of the available models.
+- The cross-border e-commerce plugin `plugins/silkroad` is built in.
+- Internal package names (`@deepseek-ai/dsh-*`) are unchanged so upstream updates can be merged.
+
+<a id="license"></a>
 
 ## License
 
-[MIT](LICENSE)
-
-Third-party dependencies and their licenses are disclosed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
+[MIT](LICENSE). The original DeepSeek Harness copyright notice is retained; see [NOTICE](NOTICE.md) for the fork's origin and trademark notes. Each data source's accounts, fees and terms are set by that data source.

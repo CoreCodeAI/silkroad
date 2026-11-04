@@ -350,6 +350,8 @@ class DshFamily extends ReleaseFamily {
   readonly patterns = [
     'packages/*/*/package.json',
     'apps/*/package.json',
+    // 丝路 SilkRoad product plugins ship in the web-app bundle at the shared version.
+    'plugins/*/package.json',
   ] as const
   readonly tagPrefix = 'dsh-v'
 

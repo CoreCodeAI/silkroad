@@ -1,13 +1,10 @@
 [
   {
-    "label": "检查更新…"
-  },
-  {
-    "label": "管理 dsh 命令…"
+    "label": "管理 silkroad 命令…"
   },
   {
     "role": "hide",
-    "label": "隐藏 DeepSeek Harness"
+    "label": "隐藏丝路"
   },
   {
     "role": "hideOthers",
@@ -19,6 +16,6 @@
   },
   {
     "role": "quit",
-    "label": "退出 DeepSeek Harness"
+    "label": "退出丝路"
   }
 ]

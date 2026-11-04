@@ -2,33 +2,27 @@
 # section, a hash of its English and Chinese blocks outside code blocks and generated regions.
 # After editing either side, bring the other along and re-record with:
 #   pnpm run verify-translation-pairing --write README.md
-/deepseek-harness:
-  en: f68c4f080ce55ff2
-  zh: 88a76d7f7f0b260e
-/deepseek-harness/developer-preview:
-  en: 4ef4d8a71ac143f0
-  zh: 1bfc3149ba8e5543
-/deepseek-harness/run:
+/silkroad:
+  en: 7614a5e73c1e224a
+  zh: 3d00ddf17aaa5e2a
+/silkroad/beta:
+  en: 42af65feba0d2ce7
+  zh: 7eafdfc0f89598e9
+/silkroad/what-it-does:
+  en: 6f3c28dcfa6305c5
+  zh: 59d3b3992131ebe6
+/silkroad/run:
   en: 4e0248e4c6474fc6
   zh: eb2fb8d78c7d6bc0
-/deepseek-harness/run/run-from-npm:
-  en: e22005cd42e6cbad
-  zh: 0f536f4208df1d60
-/deepseek-harness/run/run-from-source:
-  en: 819e3f7c144d0d64
-  zh: de815f040975dba7
-/deepseek-harness/community-and-support:
-  en: 20acf6451fdc869b
-  zh: d06246dd019ecef7
-/deepseek-harness/contributing:
-  en: cabc2d3e9f8898bd
-  zh: 83b6d238bae29ce3
-/deepseek-harness/development:
-  en: 803ca2b11b497bed
-  zh: 8b4071eb0e7783ef
-/deepseek-harness/citation:
-  en: 6704e9e5a8d49a91
-  zh: 85c9cdd8d56f8e9d
-/deepseek-harness/license:
-  en: 926995344fc1c72b
-  zh: c92fab5abf85932f
+/silkroad/run/run-the-web-version-from-source:
+  en: 7e4e6b3efa9d4b44
+  zh: ffc0e6795340e2a9
+/silkroad/run/package-the-macos-desktop-app:
+  en: e993b32f93b5f414
+  zh: c30af13857d9b549
+/silkroad/differences-from-deepseek-harness:
+  en: 16fe3ccb5d4bcba1
+  zh: e29d0b1d366d7db0
+/silkroad/license:
+  en: 756e21f9892be575
+  zh: ea561785e4a9335a

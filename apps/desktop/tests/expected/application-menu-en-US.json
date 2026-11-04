@@ -1,13 +1,10 @@
 [
   {
-    "label": "Check for Updates…"
-  },
-  {
-    "label": "Manage dsh Command…"
+    "label": "Manage silkroad Command…"
   },
   {
     "role": "hide",
-    "label": "Hide DeepSeek Harness"
+    "label": "Hide SilkRoad"
   },
   {
     "role": "hideOthers",
@@ -19,6 +16,6 @@
   },
   {
     "role": "quit",
-    "label": "Quit DeepSeek Harness"
+    "label": "Quit SilkRoad"
   }
 ]

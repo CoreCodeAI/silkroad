@@ -159,6 +159,7 @@ const harness = await vi.hoisted(async () => {
     getVersion: () => '1.0.0',
     getAppPath: (): string => 'desktop-test-app',
     setAppLogsPath: vi.fn(),
+    setPath: vi.fn(),
     getPath: vi.fn<(name: string) => string>(),
     setAboutPanelOptions: vi.fn<(options: Electron.AboutPanelOptionsOptions) => void>(),
     requestSingleInstanceLock: () => true,
@@ -555,7 +556,7 @@ describe('desktop main startup', () => {
     await vi.advanceTimersByTimeAsync(0)
     const zh = locale === 'zh-CN'
     expect(harness.dialog.showMessageBox).toHaveBeenLastCalledWith(expect.objectContaining({
-      type: 'info', title: zh ? '关于 DeepSeek Harness' : 'About DeepSeek Harness', message: 'DeepSeek Harness',
+      type: 'info', title: zh ? '关于丝路' : 'About SilkRoad', message: zh ? '丝路 SilkRoad' : 'SilkRoad',
       detail: zh ? '版本 V1.0.0' : 'Version V1.0.0', buttons: [zh ? '确定' : 'OK'], cancelId: 0,
     }))
     // A dialog that cannot open is logged, not surfaced as an unhandled rejection.
@@ -595,7 +596,13 @@ describe('desktop main startup', () => {
     expect(harness.updateDownload).not.toHaveBeenCalled()
   })
 
-  it('checks updates from the application menu without offering disabled test authentication', async () => {
+  it('omits the Check for Updates application command while the update menu is disabled', async () => {
+    await readyForUpdate()
+    expect(applicationMenuItems().some(item => item.label === en.checkUpdatesMenu)).toBe(false)
+  })
+
+  // SilkRoad: the manual update check has no menu entry point while UPDATE_MENU is false.
+  it.skip('checks updates from the application menu without offering disabled test authentication', async () => {
     configureTestAuthPopup(false)
     harness.embeddedPolicy = { origin: 'https://policy.example.com', authentication: 'feishu-test',
       allowedAuthOrigins: ['https://login.example.com'], allowedPageOrigins: ['https://downloads.example.com'] }
@@ -777,7 +784,8 @@ describe('desktop main startup', () => {
     expect(harness.updateDownload).not.toHaveBeenCalled()
   })
 
-  it('persists opt-in update evidence from the real main entry without private diagnostics', async () => {
+  // SilkRoad: the manual update check has no menu entry point while UPDATE_MENU is false.
+  it.skip('persists opt-in update evidence from the real main entry without private diagnostics', async () => {
     const directory = mkdtempSync(join(tmpdir(), 'dsh-main-update-journal-'))
     try {
       vi.stubEnv('DSH_DESKTOP_UPDATE_JOURNAL_DIR', directory)
@@ -973,7 +981,7 @@ describe('desktop main startup', () => {
     expect(() => handler(event, 'application', NaN, 34)).toThrow('invalid popup request')
     const application = handler(event, 'application', 48, 34)
     expect(harness.menu.buildFromTemplate.mock.lastCall![0].map(item => item.label ?? item.type)).toEqual([
-      '关于 DeepSeek Harness', 'separator', '检查更新…', '管理 dsh 命令…', 'separator', '退出',
+      '关于丝路', 'separator', '管理 silkroad 命令…', 'separator', '退出',
     ])
     expect(harness.popup.mock.lastCall![0]).toMatchObject({ window, x: 48, y: 34 })
     expect(harness.popup.mock.lastCall![0].callback).toBeTypeOf('function')
@@ -1010,8 +1018,8 @@ describe('desktop main startup', () => {
       : ['Application', 'editMenu'])
     const application = template[0]!.submenu as MenuItemConstructorOptions[]
     expect(application.filter(item => item.visible !== false).map(describeItem)).toEqual(platform === 'darwin'
-      ? ['about', 'separator', en.checkUpdatesMenu, en.cliCommandMenu, 'separator', 'hide', 'hideOthers', 'unhide', 'separator', 'quit']
-      : ['about', 'separator', en.checkUpdatesMenu, 'separator', 'quit'])
+      ? ['about', 'separator', en.cliCommandMenu, 'separator', 'hide', 'hideOthers', 'unhide', 'separator', 'quit']
+      : ['about', 'separator', 'quit'])
     expect(harness.menu.setApplicationMenu).toHaveBeenCalledOnce()
   })
 
@@ -1572,7 +1580,7 @@ describe('desktop main startup', () => {
     })
   })
 
-  it('keeps one checking dialog open until the manual check settles, then reports the current version', async () => {
+  it.skip('keeps one checking dialog open until the manual check settles, then reports the current version', async () => {
     await readyForUpdate()
     const checked = Promise.withResolvers<DesktopUpdateState>()
     const checking = Promise.withResolvers<AbortSignal>()
@@ -1657,7 +1665,8 @@ describe('desktop main startup', () => {
     }
   })
 
-  it('lets a confirmed mandatory policy preempt an ordinary result dialog', async () => {
+  // SilkRoad: the manual update check has no menu entry point while UPDATE_MENU is false.
+  it.skip('lets a confirmed mandatory policy preempt an ordinary result dialog', async () => {
     harness.embeddedPolicy = { origin: 'https://policy.example.com',
       allowedPageOrigins: ['https://downloads.example.com'] }
     const policy = Promise.withResolvers<Response>()
@@ -2329,7 +2338,8 @@ describe('desktop main startup', () => {
   })
 })
 
-it.each(['failed', 'expired'] as const)('focuses DSH once when browser authorization becomes %s', async (phase) => {
+// SilkRoad: DeepSeek account sign-in is removed, so the main process no longer watches the account stream.
+it.skip.each(['failed', 'expired'] as const)('focuses DSH once when browser authorization becomes %s', async (phase) => {
   await import('../src/main.ts')
   await harness.preparing.promise
   harness.prepared.resolve()
@@ -2347,7 +2357,8 @@ it.each(['failed', 'expired'] as const)('focuses DSH once when browser authoriza
   expect(window.focus).toHaveBeenCalledTimes(1)
 })
 
-it.each([['light', false], ['dark', true]] as const)('opens Platform authorization in the effective %s palette', async (theme, shouldUseDarkColors) => {
+// SilkRoad: DeepSeek account sign-in is removed, so the main process no longer watches the account stream.
+it.skip.each([['light', false], ['dark', true]] as const)('opens Platform authorization in the effective %s palette', async (theme, shouldUseDarkColors) => {
   await import('../src/main.ts')
   await harness.preparing.promise
   harness.prepared.resolve()

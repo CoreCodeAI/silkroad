@@ -95,6 +95,8 @@ export function buildGates(
       gates.push(libraryGate(step, step.id === 'host-src' ? ['native'] : step.needs, env))
     }
     gates.push(pnpmGate('web', 'Web build', ['run', 'build:web'], ['client-bundle'], env))
+    // plugins/* are SilkRoad product plugins with their own tsdown builds; they need built Host declarations.
+    gates.push(pnpmGate('silkroad-plugin', 'SilkRoad plugin', ['--filter', '@deepseek-ai/dsh-silkroad', 'run', 'build'], ['host-src'], env))
   }
   if (scope === 'typecheck') {
     for (const step of contractSteps(root, 'all')) gates.push(libraryGate(step, step.needs, env))

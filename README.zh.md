@@ -1,96 +1,66 @@
-# DeepSeek Harness
+# 丝路 SilkRoad
 
 [English](README.md) | 中文
 
-DeepSeek Harness（`dsh`）是由 [DeepSeek AI](https://deepseek.com) 开发的开源 agent harness（智能体框架）。
+丝路 SilkRoad 是开源的跨境电商 AI 智能体桌面应用，先做 TikTok Shop，之后扩展到亚马逊和独立站。它基于 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)（MIT）构建，是其分支版本，并非 DeepSeek 官方产品。
 
-它构建于**一切皆插件**的架构之上，由 [Cordis](https://github.com/cordiverse/cordis) 驱动，其设计参见论文 [_A Programming Paradigm for Spatiotemporal Composability_](https://arxiv.org/abs/2608.25512)。
+**数据都由你自己授权**：用自己的账号在浏览器里登录数据平台，或者填写自己的 API Key。丝路不内置任何共享权限，不经过中转服务器，也不上报使用数据。
 
-文档：[https://deepseek-harness.github.io/deepseek-harness/](https://deepseek-harness.github.io/deepseek-harness/)
+## 测试版
 
-## 开发者预览
+丝路处于测试阶段，功能、技能和数据源对接还会持续调整。丝路只读数据、只出草稿：不替你发消息或邮件、不改价、不处理退款、不调整广告预算。
 
-DeepSeek Harness 处于 _开发者预览_ 阶段，正在快速迭代。**未来将出现破坏兼容性的变更。**
+运行前请阅读[安全说明](SAFETY.zh.md)。
 
-运行本项目前，请阅读[安全说明](SAFETY.zh.md)。
+<a id="features"></a>
+
+## 能做什么
+
+- **新会话首屏**：选品上新、内容素材、店铺运营、客服售后、达人营销五类场景，点一下就选好角色并填好提示词。
+- **左侧栏「跨境电商」面板**：场景、角色团队、数据源、知识库、报表。
+- **数据源**：FastMoss 官方 MCP（浏览器登录）、Kalodata Open API（自己的 Key，按 Kalodata 积分计费）、TikTok Shop 开放平台（只读，授权自己的店铺）、SerpApi、AnySearch、OpenAI Images 兼容的图片生成，以及本地知识库文件夹 `~/SilkRoad/knowledge`。
+- **技能**：选品调研、市场机会、Listing、定价、主图详情图、短视频脚本、爆款视频拆解、买家消息回复、评论洞察、店铺诊断、单品诊断、竞品店铺、GMV Max 诊断、每周报表、达人发现、达人诊断、建联邮件、寄样简报。
+- **报告**：技能生成的报告保存在 `~/SilkRoad/reports/`，可在右侧边栏预览。
+
+插件源码和详细说明在 [plugins/silkroad](plugins/silkroad/README.zh.md)。
 
 <a id="run"></a>
 
 ## 运行
 
-### 通过 `npm` 运行
+### 从源码运行 Web 版
 
-安装 `Node.js`，然后运行：
-
-```sh
-npx @deepseek-ai/dsh web
-```
-
-该命令默认会在 `http://127.0.0.1:3080` 启动 Web UI，本机启动时还会用默认浏览器打开页面。通过 SSH 启动时只打印宿主机 URL，因为本地转发地址由 SSH 客户端或编辑器持有。传入 `--no-open` 可仅运行服务器而不打开浏览器。详见 [Web UI 指南](docs/user/guide/index.zh.md)。
-
-<a id="run-from-source"></a>
-
-### 从源码运行
-
-如需从仓库源码运行：
+需要 Node.js 24 和 pnpm 11.28.5（`corepack enable`）。
 
 ```sh
-git clone https://github.com/deepseek-ai/deepseek-harness.git
-cd deepseek-harness
 pnpm install
-pnpm run build
-pnpm dsh web
+pnpm run build:artifacts
+pnpm run start:web
 ```
 
-`pnpm run build` 会准备仓库产物。`pnpm dsh web` 会直接使用这些已构建产物，不会重新构建。
+浏览器打开命令输出的地址。用户数据默认保存在 `~/.silkroad`，可用 `DSH_HOME` 指定其他目录。
 
-## 社区与支持
+### 打包 macOS 桌面版
 
-- 通过 [GitHub Discussions](https://github.com/deepseek-ai/deepseek-harness/discussions) 提交反馈或 bug 报告。
-- 为你的插件仓库添加 [`dsh-plugin`](https://github.com/topics/dsh-plugin) 话题，便于被发现。
-- 欢迎加入 DeepSeek Harness 企微群！扫描下方二维码填写入群问卷，小助手会定期发送入群邀请。
+需要 Xcode 命令行工具。
 
-<table>
-  <thead>
-    <tr>
-      <th align="center">入群问卷</th>
-      <th align="center">微信公众号</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td align="center"><a href="https://trtgsjkv6r.feishu.cn/share/base/form/shrcnIt5twSVdLGD52KJBckGCgg"><img src="https://cdn.deepseek.com/harness/readme/community-wecom-survey.png" alt="DeepSeek Harness 入群问卷二维码" width="180" height="180"></a></td>
-      <td align="center"><img src="https://cdn.deepseek.com/harness/readme/community-wechat-official-account.png" alt="DeepSeek Harness 团队微信公众号二维码" width="180" height="180"></td>
-    </tr>
-  </tbody>
-</table>
-
-## 参与贡献
-
-参见 [CONTRIBUTING.md](CONTRIBUTING.zh.md)。
-
-## 开发
-
-请先阅读[开发指南](docs/development.zh.md)与[架构文档](docs/architecture.zh.md)。
-
-`pnpm run dev:web` 会在一个终端里完成构建、启动，并在源码修改时重建 client bundle；`make help` 列出 Web 与 Desktop 对应的 Make target。完整表格见开发指南的「应用命令」一节。
-
-面向 agent：请遵循 [AGENTS.md](AGENTS.md)。
-
-## 引用
-
-```bibtex
-@misc{deepseek-harness2026,
-  title={DeepSeek Harness: Everything is a Plugin},
-  author={DeepSeek-AI},
-  year={2026},
-  publisher={GitHub},
-  howpublished={\url{https://github.com/deepseek-ai/deepseek-harness}},
-}
+```sh
+pnpm run package:desktop:mac:arm64:unsigned
 ```
+
+产物是未签名、未公证的 DMG，首次打开时需要在「系统设置 → 隐私与安全性」里允许。目前没有自动更新，新版本需要重新安装。
+
+<a id="differences"></a>
+
+## 与 DeepSeek Harness 的区别
+
+- 产品名称、标志、首屏和安装包换成丝路 SilkRoad；应用 ID 为 `com.corecode.silkroad`，数据目录为 `~/.silkroad`，终端命令为 `silkroad`，可以和官方 DeepSeek Harness 同时安装。
+- 去掉了 DeepSeek 账号登录、使用数据上报和官方自动更新；模型通过你自己的 API Key 使用，DeepSeek 仍是可选的模型之一。
+- 内置跨境电商插件 `plugins/silkroad`。
+- 内部包名（`@deepseek-ai/dsh-*`）保持不变，方便合并上游更新。
+
+<a id="license"></a>
 
 ## 许可证
 
-[MIT](LICENSE)
-
-第三方依赖及其许可证见 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md)。
+[MIT](LICENSE)。本项目保留 DeepSeek Harness 的原始版权声明，分支来源和商标说明见 [NOTICE](NOTICE.md)。各数据源的账号、费用和使用条款由数据源自己规定。
